@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ninja.auth.pac4j;
+package com.makotan.ninja.auth.pac4j;
 
 import ninja.Context;
 import ninja.Result;

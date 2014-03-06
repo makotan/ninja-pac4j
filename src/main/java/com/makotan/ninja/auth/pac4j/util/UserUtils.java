@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ninja.auth.pac4j.util;
+package com.makotan.ninja.auth.pac4j.util;
 
 import ninja.Context;
-import ninja.auth.pac4j.NinjaWebContext;
+import com.makotan.ninja.auth.pac4j.NinjaWebContext;
 import org.pac4j.core.profile.CommonProfile;
 
 public class UserUtils {

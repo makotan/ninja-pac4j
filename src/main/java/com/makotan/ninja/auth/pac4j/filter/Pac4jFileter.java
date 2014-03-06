@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ninja.auth.pac4j.filter;
+package com.makotan.ninja.auth.pac4j.filter;
 
 
 import com.google.inject.Inject;
+import com.makotan.ninja.auth.pac4j.NinjaWebContext;
 import ninja.*;
-import ninja.auth.pac4j.NinjaWebContext;
-import ninja.auth.pac4j.configuration.ClientsFactory;
-import ninja.auth.pac4j.util.UserUtils;
+import com.makotan.ninja.auth.pac4j.configuration.ClientsFactory;
+import com.makotan.ninja.auth.pac4j.util.UserUtils;
 import ninja.servlet.ContextImpl;
 import ninja.utils.NinjaProperties;
 import org.pac4j.core.client.Client;
