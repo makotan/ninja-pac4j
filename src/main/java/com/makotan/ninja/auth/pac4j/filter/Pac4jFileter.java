@@ -47,7 +47,7 @@ public class Pac4jFileter implements Filter {
     ClientsFactory clientsFactory;
 
     public Result filter(FilterChain filterChain, Context context) {
-        CommonProfile profile = UserUtils.getProfile(context);
+        CommonProfile profile = UserUtils.getProfile(context , CommonProfile.class);
         logger.debug("profile : {}", profile);
 
         if (profile != null) {

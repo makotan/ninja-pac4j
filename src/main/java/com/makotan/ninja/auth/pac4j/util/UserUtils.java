@@ -21,6 +21,8 @@ import org.pac4j.core.profile.CommonProfile;
 
 public class UserUtils {
     private final static String PAC4J_PROFILE = "pac4jProfile";
+    public static final String CONTEXT_PROFILE_NAME = "pac4j_context_profile";
+
     /**
      * Return if the user is authenticated.
      *
@@ -28,7 +30,7 @@ public class UserUtils {
      * @return if the user is authenticated
      */
     public static boolean isAuthenticated(final Context context) {
-        return getProfile(context) != null;
+        return getProfile(context , CommonProfile.class) != null;
     }
 
     /**
@@ -37,13 +39,18 @@ public class UserUtils {
      * @param context
      * @return the user profile
      */
-    public static CommonProfile getProfile(final Context context) {
+    public static <T extends CommonProfile> T getProfile(final Context context , Class<T> tClass) {
+        Object profile = context.getAttribute(CONTEXT_PROFILE_NAME);
+        if (profile != null) {
+            return (T)profile;
+        }
+
         NinjaWebContext nw = new NinjaWebContext(context);
-        Object profile = nw.getSessionAttribute(PAC4J_PROFILE);
+        profile = nw.getSessionAttribute(PAC4J_PROFILE);
         if (profile == null) {
             return null;
         }
-        return (CommonProfile)profile;
+        return (T)profile;
     }
 
     /**
@@ -52,9 +59,10 @@ public class UserUtils {
      * @param context
      * @param profile
      */
-    public static void setProfile(final Context context, final CommonProfile profile) {
+    public static <T extends CommonProfile> void setProfile(final Context context, final T profile) {
         NinjaWebContext nw = new NinjaWebContext(context);
         nw.setSessionAttribute(PAC4J_PROFILE, profile);
+        context.setAttribute(CONTEXT_PROFILE_NAME , profile);
     }
 
     /**
@@ -64,6 +72,7 @@ public class UserUtils {
      */
     public static void logout(final Context context) {
         setProfile(context, null);
+        context.setAttribute(CONTEXT_PROFILE_NAME , null);
     }
 
 }
