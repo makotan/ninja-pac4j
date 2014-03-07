@@ -15,13 +15,19 @@
  */
 package com.makotan.ninja.auth.pac4j.util;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import ninja.Context;
 import com.makotan.ninja.auth.pac4j.NinjaWebContext;
 import org.pac4j.core.profile.CommonProfile;
 
+@Singleton
 public class UserUtils {
     private final static String PAC4J_PROFILE = "pac4jProfile";
-    public static final String CONTEXT_PROFILE_NAME = "pac4j_context_profile";
+    private static final String CONTEXT_PROFILE_NAME = "pac4j_context_profile";
+
+    @Inject
+    ProfileAccess profileAccess;
 
     /**
      * Return if the user is authenticated.
@@ -29,7 +35,7 @@ public class UserUtils {
      * @param context
      * @return if the user is authenticated
      */
-    public static boolean isAuthenticated(final Context context) {
+    public boolean isAuthenticated(final Context context) {
         return getProfile(context , CommonProfile.class) != null;
     }
 
@@ -39,18 +45,18 @@ public class UserUtils {
      * @param context
      * @return the user profile
      */
-    public static <T extends CommonProfile> T getProfile(final Context context , Class<T> tClass) {
+    public <T extends CommonProfile> T getProfile(final Context context , Class<T> tClass) {
         Object profile = context.getAttribute(CONTEXT_PROFILE_NAME);
         if (profile != null) {
             return (T)profile;
         }
 
         NinjaWebContext nw = new NinjaWebContext(context);
-        profile = nw.getSessionAttribute(PAC4J_PROFILE);
-        if (profile == null) {
+        String id = (String) nw.getSessionAttribute(PAC4J_PROFILE);
+        if (id == null) {
             return null;
         }
-        return (T)profile;
+        return profileAccess.read(id);
     }
 
     /**
@@ -59,9 +65,10 @@ public class UserUtils {
      * @param context
      * @param profile
      */
-    public static <T extends CommonProfile> void setProfile(final Context context, final T profile) {
+    public <T extends CommonProfile> void setProfile(final Context context, final T profile) {
+        String id = profileAccess.write(profile);
         NinjaWebContext nw = new NinjaWebContext(context);
-        nw.setSessionAttribute(PAC4J_PROFILE, profile);
+        nw.setSessionAttribute(PAC4J_PROFILE, id);
         context.setAttribute(CONTEXT_PROFILE_NAME , profile);
     }
 
@@ -70,7 +77,7 @@ public class UserUtils {
      *
      * @param context
      */
-    public static void logout(final Context context) {
+    public void logout(final Context context) {
         setProfile(context, null);
         context.setAttribute(CONTEXT_PROFILE_NAME , null);
     }

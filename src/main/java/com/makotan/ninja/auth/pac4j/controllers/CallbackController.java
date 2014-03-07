@@ -18,6 +18,7 @@ package com.makotan.ninja.auth.pac4j.controllers;
 import com.google.inject.Inject;
 import com.makotan.ninja.auth.pac4j.NinjaWebContext;
 import com.makotan.ninja.auth.pac4j.filter.Pac4jFileter;
+import com.makotan.ninja.auth.pac4j.util.UserUtils;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -39,11 +40,13 @@ public class CallbackController {
 
     private final String defaultUrl;
 
-    private final static String PAC4J_PROFILE = "pac4jProfile";
     private final static String PAC4J_REDIRECT = "pac4j.default_redirect";
 
     @Inject
     ClientsFactory clientsFactory;
+
+    @Inject
+    UserUtils userUtils;
 
     @Inject
     public CallbackController(NinjaProperties properties) {
@@ -69,8 +72,7 @@ public class CallbackController {
         logger.debug("profile : {}", profile);
         if (profile != null) {
             // only save profile when it's not null
-            nwContext.setSessionAttribute(PAC4J_PROFILE , profile);
-
+            userUtils.setProfile(context , profile);
         }
         String requestedUrl = (String) nwContext.getSessionAttribute(Pac4jFileter.ORIGINAL_REQUESTED_URL);
         logger.debug("requestedUrl : {}", requestedUrl);

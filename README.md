@@ -56,13 +56,22 @@ ClientsFactoryをimplementsしたclassを追加する
 TwitterやFacebookなどのClientに必要な情報は、このクラスでapplication.confや環境変数などから取得する
 
 
+ProfileAccess
+---------------
+
+ProfileAccessをimplementsしたclassを追加する
+
+CommonProfileのTemporary Storageとして利用する為
+
+実際は Ninja’s Cache Api を利用してCacheにする、DynamoDBを利用するなどの方法で実装する
 
 Module
 ---------------
 
-ClientFactoryをimplementsしたclassの定義を追加する
+ClientFactoryをimplementsしたclassとProfileAccessをimplementsしたclassの定義を追加する
 
     bind(ClientsFactory.class).to(MyClientsFactory.class);
+    bind(ProfileAccess.class).to(SampleProfileAccess.class);
 
 
 Routes
@@ -74,7 +83,7 @@ CallbackContorllerのcallbackへPOSTを設定する
 
 Controller
 ---------------
-Pac4jFilete.classをFilterとして追加する
+Pac4jFilter.classをFilterとして追加する
 
     @FilterWith({Pac4jFileter.class})
 

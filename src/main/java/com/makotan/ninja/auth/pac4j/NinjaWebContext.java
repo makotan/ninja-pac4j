@@ -53,7 +53,7 @@ public class NinjaWebContext implements WebContext {
 
     @Override
     public void setSessionAttribute(String name, Object value) {
-        logger.trace("setSessionAttribute name: {} , value: {}" , name , value);
+        logger.debug("setSessionAttribute name: {} , value: {}" , name , value);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try(ObjectOutputStream out = new ObjectOutputStream(baos)) {
             out.writeObject(value);
@@ -71,7 +71,7 @@ public class NinjaWebContext implements WebContext {
             return null;
         }
         byte[] bytes = DatatypeConverter.parseBase64Binary(data);
-        logger.trace("getSession {} {}", name, data);
+        logger.debug("getSession {} {}", name, data);
         try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
             return in.readObject();
         } catch (Exception e) {
