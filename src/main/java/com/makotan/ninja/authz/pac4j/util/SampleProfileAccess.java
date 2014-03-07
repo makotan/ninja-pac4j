@@ -1,4 +1,4 @@
-package com.makotan.ninja.auth.pac4j.util;
+package com.makotan.ninja.authz.pac4j.util;
 
 import com.google.inject.Singleton;
 import org.pac4j.core.profile.CommonProfile;

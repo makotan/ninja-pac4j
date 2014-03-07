@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.makotan.ninja.auth.pac4j.util;
+package com.makotan.ninja.authz.pac4j.util;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ninja.Context;
-import com.makotan.ninja.auth.pac4j.NinjaWebContext;
+import com.makotan.ninja.authz.pac4j.NinjaWebContext;
 import org.pac4j.core.profile.CommonProfile;
 
 @Singleton
